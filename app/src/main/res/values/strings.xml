@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">AplicacionDB_Spinner_parte4</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+
+
+    <!-- Codigo -->
+    <string name="title_activity_insertar">Insertar</string>
+    <string name="insertar">Insertar</string>
+    <string name="id">Id</string>
+    <string name="nombre">Nombre</string>
+    <string name="telefono">Telefono</string>
+    <string name="correo">Correo</string>
+    <string name="pais">Pais</string>
+    <string name="guardar">Guardar</string>
+</resources>
