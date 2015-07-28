@@ -152,20 +152,27 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
+    /* Codigo */
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()) {
+            case R.id.insertar:
+                Intent intent = new Intent(getApplicationContext(),
+                        Insertar.class);
+                intent.putExtra("id","");
+                intent.putExtra("nom","");
+                intent.putExtra("tel","");
+                intent.putExtra("mail","");
+                intent.putExtra("pais","");
+                intent.putExtra("boton","Insertar");
+                startActivity(intent);
+                break;
+            default:
+                break;
         }
-
         return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {

@@ -29,7 +29,9 @@ public class Insertar extends Activity {
     Button guardar;
     SQLHelper sqlhelper;
     SQLiteDatabase db;
+    int indice = 0;
     final String BASEDEDATOS = "BD_Agenda.db";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +49,8 @@ public class Insertar extends Activity {
         id.setText(parametros.getString("id"));
         nom.setText(parametros.getString("nom"));
         tel.setText(parametros.getString("tel"));
-        idPais =parametros.getString("pais");
+        mail.setText(parametros.getString("mail"));
+        idPais = parametros.getString("pais");
         //mail.setText(parametros.getString("mail"));
         //pais.setText(parametros.getString("pais"));
         Log.e("JMMC", idPais);
@@ -58,7 +61,7 @@ public class Insertar extends Activity {
         guardar.setText(parametros.getString("boton"));
         //Log.e("JMMC",idPais);
 
-        sqlhelper = new SQLHelper (this);
+        sqlhelper = new SQLHelper(this);
         //sqlhelper = new SQLHelper(this, BASEDEDATOS, null, 1);
 
         guardar.setOnClickListener(new OnClickListener() {
@@ -69,25 +72,25 @@ public class Insertar extends Activity {
                 // TODO Auto-generated method stub
                 if (guardar.getText().equals("Insertar")) {
                     db.execSQL(" INSERT INTO contacto "
-                            + " (id,nombre,telefono, correo,pais) "
+                            + " (nombre,telefono, correo,pais) "
                             + " VALUES ( "
-                            + " '" + id.getText().toString() + "', "
+
                             + " '" + nom.getText().toString() + "', "
                             + " '" + tel.getText().toString() + "', "
                             + " '" + mail.getText().toString() + "', "
                             + " '" + idPais.toString() + "' "
                             + " ) ");
 
-                } else if(guardar.getText().equals("Modificar")){
+                } else if (guardar.getText().equals("Modificar")) {
 
                     db.execSQL("UPDATE contacto" +
                             " SET" +
-                            " nombre='"+nom.getText().toString()+"'," +
-                            "telefono='"+tel.getText().toString()+"'," +
-                            "correo='"+mail.getText().toString()+"'," +
-                            "pais='"+idPais.toString()+"'"+
+                            " nombre='" + nom.getText().toString() + "'," +
+                            "telefono='" + tel.getText().toString() + "'," +
+                            "correo='" + mail.getText().toString() + "'," +
+                            "pais='" + idPais.toString() + "'" +
                             " WHERE" +
-                            " _id='"+id.getText().toString()+"'");
+                            " _id='" + id.getText().toString() + "'");
 
                     /*db = sqlhelper.getWritableDatabase();
                     ContentValues values = new ContentValues();
@@ -99,31 +102,49 @@ public class Insertar extends Activity {
                     db.close();*/
                 }
                 db.close();
-               finish();
+                finish();
             }
         });
-        Log.e("JMMC","2");
+        Log.e("JMMC", "2");
 
         //Spinner pais
         pais = (Spinner) this.findViewById(R.id.pais);
         db = sqlhelper.getWritableDatabase();
 
-        Cursor cur =db.rawQuery("SELECT id as _id, nombre FROM pais",null);
-        int [] paisId = new int[]{android.R.id.text1};
-        String [] paisNombre = new String[]{"nombre"};
+        Cursor cur = db.rawQuery("SELECT id as _id, nombre FROM pais", null);
 
-        SimpleCursorAdapter mAdapter = new SimpleCursorAdapter(this,android.R.layout.simple_spinner_item
-                ,cur,paisNombre,paisId,0); //indice donde debe iniciar el spinner seleccionado
+
+        int[] paisId = new int[]{android.R.id.text1};
+        String[] paisNombre = new String[]{"nombre"};
+
+        System.out.println("VERRRRR:"+idPais);
+
+        if (idPais.equalsIgnoreCase("Mexico")) {
+            indice = 0;
+            System.out.println("1");
+        } else if (idPais.equalsIgnoreCase("Rusia")) {
+            indice = 3;
+            System.out.println("2");
+        } else if (idPais.equalsIgnoreCase("Alemania")) {
+            indice = 2;
+            System.out.println("3");
+        } else if (idPais.equalsIgnoreCase("Japon")) {
+            System.out.println("4");
+            indice = 3;
+        }
+
+        SimpleCursorAdapter mAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item
+                , cur, paisNombre, paisId, indice); //indice donde debe iniciar el spinner seleccionado
         mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         pais.setAdapter(mAdapter);
         db.close();
         Log.e("JMMC", "3");
 
-        pais.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-            public void onItemSelected(AdapterView<?> parent,View view,int pos,long id){
+        pais.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 Long itemId = parent.getItemIdAtPosition(pos);
-                Log.e("JMMC","Listener="+itemId);
-                idPais = itemId+"";
+                Log.e("JMMC", "Listener=" + itemId);
+                idPais = itemId + "";
                 idPaisSel.setText(idPais);
             }
 
@@ -132,7 +153,7 @@ public class Insertar extends Activity {
 
             }
         });
-        Log.e("JMMC","4");
+        Log.e("JMMC", "4");
     }
 
 
